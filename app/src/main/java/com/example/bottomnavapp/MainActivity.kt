@@ -2,9 +2,14 @@ package com.example.bottomnavapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,6 +26,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+        val sideNavigationView = findViewById<NavigationView>(R.id.side_navigation_view)
+        val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
+        val menuImageView = findViewById<ImageView>(R.id.menu_image_view)
 
         fragmentManager.beginTransaction().apply {
             add(R.id.fragment_container, fragment4, "4").hide(fragment4)
@@ -57,6 +65,26 @@ class MainActivity : AppCompatActivity() {
 
                 else -> false
             }
+        }
+
+        sideNavigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_pokemon -> {
+                    Toast.makeText(this, "Pokemon berhasil diklik!", Toast.LENGTH_SHORT).show()
+                }
+                R.id.navigation_settings -> {
+                    Toast.makeText(this, "Pengaturan berhasil diklik!", Toast.LENGTH_SHORT).show()
+                }
+                R.id.navigation_about -> {
+                    Toast.makeText(this, "Tentang aplikasi berhasil diklik!", Toast.LENGTH_SHORT).show()
+                }
+            }
+            drawerLayout.closeDrawers()
+            true
+        }
+
+        menuImageView.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
         }
 
     }
